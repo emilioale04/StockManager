@@ -1,0 +1,26 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- PostgreSQL connection driver -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+        <!-- Database connection URL -->
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/stocks_db</property>
+
+        <!-- Database credentials -->
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">P@ssw0rd</property>
+
+        <!-- PostgreSQL dialect for Hibernate -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Show SQL in the console -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Format SQL output -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Automatic schema update -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+    </session-factory>
+</hibernate-configuration>
