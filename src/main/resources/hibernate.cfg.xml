@@ -22,5 +22,8 @@
         <!-- Automatic schema update -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- Entity class mappings -->
+        <mapping class="epn.fis.stockmanager.model.Stock"/>
+
     </session-factory>
 </hibernate-configuration>
