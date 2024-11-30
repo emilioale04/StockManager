@@ -2,7 +2,7 @@ package epn.fis.stockmanager.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import epn.fis.stockmanagement.config.HibernateConfig;
+import epn.fis.stockmanager.config.HibernateConfig;
 import java.util.List;
 /**
  * Generic BaseDAO for common CRUD operations using Hibernate.

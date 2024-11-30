@@ -1,6 +1,6 @@
-import epn.fis.stockmanagement.config.HibernateConfig;
-import epn.fis.stockmanagement.dao.StockDAO;
-import epn.fis.stockmanagement.model.Stock;
+import epn.fis.stockmanager.config.HibernateConfig;
+import epn.fis.stockmanager.dao.StockDAO;
+import epn.fis.stockmanager.model.Stock;
 
 import org.junit.jupiter.api.*;
 import java.time.LocalDate;

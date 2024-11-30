@@ -1,6 +1,6 @@
-package epn.fis.stockmanagement.dao;
+package epn.fis.stockmanager.dao;
 
-import epn.fis.stockmanagement.model.Stock;
+import epn.fis.stockmanager.model.Stock;
 
 /**
  * DAO for managing Stock entities.
