@@ -41,6 +41,9 @@ public class StockController extends HttpServlet {
             throws ServletException, IOException {
         handleSaveAction(request);
 
+        // Update the stock prices after saving a stock
+        stockService.updateAllStocksPrices();
+
         // Redirect to the stock page to display updated stocks
         response.sendRedirect("stock");
     }

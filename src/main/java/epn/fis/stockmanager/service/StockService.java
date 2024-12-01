@@ -50,12 +50,11 @@ public class StockService {
     }
 
     /**
-     * Retrieves all stocks with updated prices from the external API.
+     * Update all stocks with updated prices from the external API.
      *
-     * @return A list of stocks with updated prices.
      * @throws IOException If an error occurs while fetching prices.
      */
-    public List<Stock> getAllStocksWithUpdatedPrices() throws IOException {
+    public void updateAllStocksPrices() throws IOException {
         List<Stock> stocks = getAllStocks();
         List<String> tickers = stocks.stream()
                 .map(Stock::getTickerSymbol)
@@ -70,8 +69,6 @@ public class StockService {
                 saveStock(stock);
             }
         }
-
-        return stocks;
     }
 
     /**
