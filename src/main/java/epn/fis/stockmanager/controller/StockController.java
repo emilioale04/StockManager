@@ -57,6 +57,7 @@ public class StockController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Stock> stocks = stockService.getAllStocks();
+        stockService.updateProfitOrLoss(stocks);
         request.setAttribute("stocks", stocks);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }

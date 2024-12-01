@@ -68,6 +68,8 @@
             <th>Cantidad</th>
             <th>Precio de Compra</th>
             <th>Último Precio Registrado</th>
+            <th>Porcentaje Ganancia/Pérdida</th>
+            <th>Dinero Ganado/Perdido</th>
             <th>Comentarios</th>
         </tr>
         </thead>
@@ -84,6 +86,53 @@
                     <c:choose>
                         <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
                             <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2" />
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <c:choose>
+                                <c:when test="${stock.profitOrLossPercentage >= 0}">
+                    <span class="text-success">
+                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                    </span>
+                                </c:when>
+                                <c:when test="${stock.profitOrLossPercentage < 0}">
+                    <span class="text-danger">
+                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                    </span>
+                                </c:when>
+                                <c:otherwise>
+                    <span>
+                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                    </span>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <c:choose>
+                                <c:when test="${stock.profitOrLoss >= 0}">
+                                <span class="text-success">
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number" maxFractionDigits="2" />$
+                                </span>
+                                </c:when>
+                                <c:when test="${stock.profitOrLoss < 0}">
+                                <span class="text-danger">
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number" maxFractionDigits="2" />$
+                                </span>
+                                </c:when>
+                            </c:choose>
                         </c:when>
                         <c:otherwise>
                             N/A

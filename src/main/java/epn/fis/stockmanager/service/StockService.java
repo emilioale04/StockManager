@@ -99,4 +99,16 @@ public class StockService {
         }
         return 0.0;
     }
+
+    /**
+     * Updates profit or loss details for a list of stocks.
+     *
+     * @param stocks The list of stocks to update.
+     */
+    public void updateProfitOrLoss(List<Stock> stocks) {
+        for (Stock stock : stocks) {
+            stock.setProfitOrLoss(calculateProfit(stock));
+            stock.setProfitOrLossPercentage(calculateProfitPercentage(stock));
+        }
+    }
 }
