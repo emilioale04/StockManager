@@ -35,6 +35,12 @@ public class Stock {
     @Column(name = "comments")
     private String comments;
 
+    @Transient
+    private double profitOrLoss;
+
+    @Transient
+    private double profitOrLossPercentage;
+
     // Constructors
     public Stock() {
     }
@@ -110,5 +116,21 @@ public class Stock {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public double getProfitOrLoss() {
+        return profitOrLoss;
+    }
+
+    public void setProfitOrLoss(double profitOrLoss) {
+        this.profitOrLoss = profitOrLoss;
+    }
+
+    public double getProfitOrLossPercentage() {
+        return profitOrLossPercentage;
+    }
+
+    public void setProfitOrLossPercentage(double profitOrLossPercentage) {
+        this.profitOrLossPercentage = profitOrLossPercentage;
     }
 }

@@ -50,12 +50,11 @@ public class StockService {
     }
 
     /**
-     * Retrieves all stocks with updated prices from the external API.
+     * Update all stocks with updated prices from the external API.
      *
-     * @return A list of stocks with updated prices.
      * @throws IOException If an error occurs while fetching prices.
      */
-    public List<Stock> getAllStocksWithUpdatedPrices() throws IOException {
+    public void updateAllStocksPrices() throws IOException {
         List<Stock> stocks = getAllStocks();
         List<String> tickers = stocks.stream()
                 .map(Stock::getTickerSymbol)
@@ -70,7 +69,43 @@ public class StockService {
                 saveStock(stock);
             }
         }
+    }
 
-        return stocks;
+    /**
+     * Calculates the total profit or loss for a given stock.
+     *
+     * @param stock The stock for which to calculate profit or loss.
+     * @return The profit or loss amount.
+     */
+    public double calculateProfit(Stock stock) {
+        if (stock.getCurrentPrice() != 0) {
+            return (stock.getCurrentPrice() - stock.getPurchasePrice()) * stock.getQuantity();
+        }
+        return 0.0;
+    }
+
+    /**
+     * Calculates the profit or loss percentage for a given stock.
+     *
+     * @param stock The stock for which to calculate the percentage.
+     * @return The profit or loss percentage.
+     */
+    public double calculateProfitPercentage(Stock stock) {
+        if (stock.getCurrentPrice() != 0) {
+            return ((stock.getCurrentPrice() - stock.getPurchasePrice()) / stock.getPurchasePrice()) * 100;
+        }
+        return 0.0;
+    }
+
+    /**
+     * Updates profit or loss details for a list of stocks.
+     *
+     * @param stocks The list of stocks to update.
+     */
+    public void updateProfitOrLoss(List<Stock> stocks) {
+        for (Stock stock : stocks) {
+            stock.setProfitOrLoss(calculateProfit(stock));
+            stock.setProfitOrLossPercentage(calculateProfitPercentage(stock));
+        }
     }
 }
