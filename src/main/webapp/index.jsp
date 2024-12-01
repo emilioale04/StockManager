@@ -65,6 +65,37 @@
             <th>Último Precio Registrado</th>
         </tr>
         </thead>
+        <tbody>
+        <c:forEach var="stock" items="${stocks}">
+            <tr>
+                <td>${stock.id}</td>
+                <td>${stock.companyName}</td>
+                <td>${stock.tickerSymbol}</td>
+                <td>${stock.purchaseDate}</td>
+                <td>${stock.quantity}</td>
+                <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2" /></td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2" />
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${stock.comments != null ? stock.comments : 'N/A'}</td>
+                <!-- Action buttons -->
+                <td>
+                    <form action="stock" method="POST" style="display: inline;">
+                        <input type="hidden" name="action" value="delete" />
+                        <input type="hidden" name="stockId" value="${stock.id}" />
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
 
     </table>
 </div>
