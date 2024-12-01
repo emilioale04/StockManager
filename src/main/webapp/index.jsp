@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <h2>Registro de Acciones</h2>
         <!-- Row for symbol and name -->
-    <form action="" method="POST" onsubmit="return validateForm()">
+    <form action="stock" method="POST" onsubmit="return validateForm()">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="tickerSymbol">Símbolo</label>
@@ -63,8 +63,32 @@
             <th>Cantidad</th>
             <th>Precio de Compra</th>
             <th>Último Precio Registrado</th>
+            <th>Comentarios</th>
         </tr>
         </thead>
+        <tbody>
+        <c:forEach var="stock" items="${stocks}">
+            <tr>
+                <td>${stock.id}</td>
+                <td>${stock.companyName}</td>
+                <td>${stock.tickerSymbol}</td>
+                <td>${stock.purchaseDate}</td>
+                <td>${stock.quantity}</td>
+                <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2" /></td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2" />
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${stock.comments != null ? stock.comments : 'N/A'}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
 
     </table>
 </div>
