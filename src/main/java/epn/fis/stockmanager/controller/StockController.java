@@ -39,22 +39,9 @@ public class StockController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String companyName = request.getParameter("companyName");
-        String tickerSymbol = request.getParameter("tickerSymbol");
-        LocalDate purchaseDate = LocalDate.parse(request.getParameter("purchaseDate"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        double purchasePrice = Double.parseDouble(request.getParameter("purchasePrice"));
-        String comments = request.getParameter("comments");
+        handleSaveAction(request);
 
-        // Default current price, update after
-        double currentPrice = 0.0;
-
-        Stock stock = new Stock(companyName, tickerSymbol, purchaseDate, quantity, purchasePrice);
-        stock.setCurrentPrice(currentPrice);
-        stock.setComments(comments);
-
-        stockService.saveStock(stock);
-
+        // Redirect to the stock page to display updated stocks
         response.sendRedirect("stock");
     }
 
@@ -72,5 +59,28 @@ public class StockController extends HttpServlet {
         List<Stock> stocks = stockService.getAllStocks();
         request.setAttribute("stocks", stocks);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles the save action from the request.
+     *
+     * @param request The HttpServletRequest object.
+     */
+    private void handleSaveAction(HttpServletRequest request) {
+        String companyName = request.getParameter("companyName");
+        String tickerSymbol = request.getParameter("tickerSymbol");
+        LocalDate purchaseDate = LocalDate.parse(request.getParameter("purchaseDate"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double purchasePrice = Double.parseDouble(request.getParameter("purchasePrice"));
+        double currentPrice = request.getParameter("currentPrice") != null
+                ? Double.parseDouble(request.getParameter("currentPrice"))
+                : 0.0;
+        String comments = request.getParameter("comments");
+
+        Stock stock = new Stock(companyName, tickerSymbol, purchaseDate, quantity, purchasePrice);
+        stock.setCurrentPrice(currentPrice);
+        stock.setComments(comments);
+
+        stockService.saveStock(stock);
     }
 }
