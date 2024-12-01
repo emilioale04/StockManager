@@ -41,11 +41,33 @@ public class StockController extends HttpServlet {
             throws ServletException, IOException {
         handleSaveAction(request);
 
-        // Update the stock prices after saving a stock
-        stockService.updateAllStocksPrices();
+        refreshStocks(request, response, stockService);
+    }
 
-        // Redirect to the stock page to display updated stocks
-        response.sendRedirect("stock");
+    /**
+     * Refreshes the stock data by updating prices, recalculating profit/loss,
+     * and forwarding the updated list to the JSP.
+     *
+     * @param request  The HttpServletRequest object containing the client request.
+     * @param response The HttpServletResponse object for sending the response to the client.
+     * @param stockService The StockService instance used for stock-related operations.
+     * @throws ServletException If an error occurs during the request dispatching.
+     * @throws IOException      If an input or output error occurs.
+     */
+    static void refreshStocks(HttpServletRequest request, HttpServletResponse response,
+                              StockService stockService) throws ServletException, IOException {
+        try{
+            // Update the stock prices after saving a stock
+            stockService.updateAllStocksPrices();
+        } catch (IOException e) {
+            request.setAttribute("message", "error");
+        }
+
+        List<Stock> stocks = stockService.getAllStocks();
+        stockService.updateProfitOrLoss(stocks);
+        request.setAttribute("stocks", stocks);
+
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     /**

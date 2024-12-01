@@ -57,6 +57,14 @@
         <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
     </form>
 
+    <!-- Error message -->
+    <c:if test="${not empty message and message == 'error'}">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            Ocurrió un error al actualizar los precios de las acciones. Por favor, inténtelo nuevamente más tarde.
+        </div>
+    </c:if>
+
     <!-- Table for displaying stocks -->
     <table class="table table-bordered mt-3">
         <thead>

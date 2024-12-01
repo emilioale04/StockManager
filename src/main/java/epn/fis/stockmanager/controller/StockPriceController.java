@@ -42,9 +42,6 @@ public class StockPriceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        stockService.updateAllStocksPrices();
-
-        // Forwarding to the stock servlet to display the updated stock list
-        request.getRequestDispatcher("stock").forward(request, response);
+        StockController.refreshStocks(request, response, stockService);
     }
 }
