@@ -162,10 +162,11 @@
         let purchaseDate = new Date(document.getElementById("purchaseDate").value);
         let today = new Date();
 
-        // Validate symbol contains only letters and numbers
-        let symbolRegex = /^[A-Za-z0-9]+$/;
+        // Validate symbol matches stock symbol conventions
+        let symbolRegex = /^[A-Z]{1,5}(\.[A-Z]{1,3})?$/;
         if (!symbolRegex.test(tickerSymbol)) {
-            alert("El símbolo solo debe contener letras y números.");
+            alert("El símbolo debe contener entre 1 y 5 letras mayúsculas, opcionalmente un " +
+                "punto seguido de hasta 3 letras mayúsculas.");
             return false;
         }
 
