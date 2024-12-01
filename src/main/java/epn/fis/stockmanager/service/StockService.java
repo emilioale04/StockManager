@@ -73,4 +73,30 @@ public class StockService {
 
         return stocks;
     }
+
+    /**
+     * Calculates the total profit or loss for a given stock.
+     *
+     * @param stock The stock for which to calculate profit or loss.
+     * @return The profit or loss amount.
+     */
+    public double calculateProfit(Stock stock) {
+        if (stock.getCurrentPrice() != 0) {
+            return (stock.getCurrentPrice() - stock.getPurchasePrice()) * stock.getQuantity();
+        }
+        return 0.0;
+    }
+
+    /**
+     * Calculates the profit or loss percentage for a given stock.
+     *
+     * @param stock The stock for which to calculate the percentage.
+     * @return The profit or loss percentage.
+     */
+    public double calculateProfitPercentage(Stock stock) {
+        if (stock.getCurrentPrice() != 0) {
+            return ((stock.getCurrentPrice() - stock.getPurchasePrice()) / stock.getPurchasePrice()) * 100;
+        }
+        return 0.0;
+    }
 }
