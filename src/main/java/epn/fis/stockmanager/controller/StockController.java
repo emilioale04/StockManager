@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @WebServlet(name = "StockController", value = "/stock")
 public class StockController extends HttpServlet {
@@ -41,6 +42,14 @@ public class StockController extends HttpServlet {
 
         stockService.saveStock(stock);
 
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("stock");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Stock> stocks = stockService.getAllStocks();
+        request.setAttribute("stocks", stocks);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

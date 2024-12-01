@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <h2>Registro de Acciones</h2>
         <!-- Row for symbol and name -->
-    <form action="" method="POST" onsubmit="return validateForm()">
+    <form action="stock" method="POST" onsubmit="return validateForm()">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="tickerSymbol">Símbolo</label>
@@ -63,6 +63,7 @@
             <th>Cantidad</th>
             <th>Precio de Compra</th>
             <th>Último Precio Registrado</th>
+            <th>Comentarios</th>
         </tr>
         </thead>
         <tbody>
@@ -85,14 +86,6 @@
                     </c:choose>
                 </td>
                 <td>${stock.comments != null ? stock.comments : 'N/A'}</td>
-                <!-- Action buttons -->
-                <td>
-                    <form action="stock" method="POST" style="display: inline;">
-                        <input type="hidden" name="action" value="delete" />
-                        <input type="hidden" name="stockId" value="${stock.id}" />
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
             </tr>
         </c:forEach>
         </tbody>
