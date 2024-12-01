@@ -53,7 +53,7 @@
     <h3 class="mt-5">Stocks Registrados</h3>
 
     <!-- Button to trigger price update -->
-    <form action="" method="GET">
+    <form action="updatePrices" method="GET">
         <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
     </form>
 
