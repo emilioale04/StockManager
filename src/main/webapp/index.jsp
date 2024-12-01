@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <h2>Registro de Acciones</h2>
         <!-- Row for symbol and name -->
-    <form action="" method="POST">
+    <form action="" method="POST" onsubmit="return validateForm()">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="tickerSymbol">Símbolo</label>
@@ -70,5 +70,27 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function validateForm() {
+        let tickerSymbol = document.getElementById("tickerSymbol").value;
+        let purchaseDate = new Date(document.getElementById("purchaseDate").value);
+        let today = new Date();
+
+        // Validate symbol contains only letters and numbers
+        let symbolRegex = /^[A-Za-z0-9]+$/;
+        if (!symbolRegex.test(tickerSymbol)) {
+            alert("El símbolo solo debe contener letras y números.");
+            return false;
+        }
+
+        // Validate date is not in the future
+        if (purchaseDate > today) {
+            alert("La fecha de compra no puede ser posterior a la fecha de hoy.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </body>
 </html>
