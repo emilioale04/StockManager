@@ -4,13 +4,16 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import epn.fis.stockmanager.config.HibernateConfig;
 import java.util.List;
+
 /**
  * Generic BaseDAO for common CRUD operations using Hibernate.
  *
  * @param <T> The entity type for this DAO.
  */
 public abstract class BaseDAO<T> {
+
     private final Class<T> entityClass;
+
     /**
      * Constructor to initialize the DAO with the entity class type.
      *
@@ -19,6 +22,7 @@ public abstract class BaseDAO<T> {
     public BaseDAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
+
     /**
      * Saves a new entity to the database.
      *
@@ -37,6 +41,7 @@ public abstract class BaseDAO<T> {
             e.printStackTrace();
         }
     }
+
     /**
      * Finds an entity by its ID.
      *
@@ -48,6 +53,7 @@ public abstract class BaseDAO<T> {
             return session.get(entityClass, id);
         }
     }
+
     /**
      * Retrieves all entities of the given type.
      *
@@ -58,6 +64,7 @@ public abstract class BaseDAO<T> {
             return session.createQuery("from " + entityClass.getName(), entityClass).list();
         }
     }
+
     /**
      * Updates an existing entity in the database.
      *
@@ -76,6 +83,7 @@ public abstract class BaseDAO<T> {
             e.printStackTrace();
         }
     }
+
     /**
      * Deletes an entity from the database.
      *

@@ -2,29 +2,36 @@ package epn.fis.stockmanager.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+
 /**
  * Represents a stock purchase entity with details about the purchase and the current status.
  */
 @Entity
 @Table(name = "stocks")
-
 public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "company_name", nullable = false, length = 50)
     private String companyName;
+
     @Column(name = "ticker_symbol", nullable = false, length = 10)
     private String tickerSymbol;
+
     @Column(name = "purchase_date", nullable = false)
     private LocalDate purchaseDate;
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
+
     @Column(name = "purchase_price", nullable = false)
     private double purchasePrice;
+
     @Column(name = "current_price")
     private double currentPrice;
+
     @Column(name = "comments")
     private String comments;
 
@@ -104,5 +111,4 @@ public class Stock {
     public void setComments(String comments) {
         this.comments = comments;
     }
-
 }
