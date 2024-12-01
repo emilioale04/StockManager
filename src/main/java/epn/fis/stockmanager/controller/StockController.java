@@ -18,11 +18,24 @@ public class StockController extends HttpServlet {
 
     private StockService stockService;
 
+    /**
+     * Initializes the StockService instance.
+     *
+     * @throws ServletException If an error occurs during initialization.
+     */
     @Override
     public void init() throws ServletException {
         stockService = new StockService();
     }
 
+    /**
+     * Handles POST requests for saving stocks.
+     *
+     * @param request  The HttpServletRequest object.
+     * @param response The HttpServletResponse object.
+     * @throws ServletException If an error occurs during the request processing.
+     * @throws IOException      If an input or output error is detected.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,6 +58,14 @@ public class StockController extends HttpServlet {
         response.sendRedirect("stock");
     }
 
+    /**
+     * Handles GET requests to retrieve and display all stocks.
+     *
+     * @param request  The HttpServletRequest object.
+     * @param response The HttpServletResponse object.
+     * @throws ServletException If an error occurs during the request processing.
+     * @throws IOException      If an input or output error is detected.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

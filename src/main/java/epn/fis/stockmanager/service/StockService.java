@@ -13,8 +13,13 @@ public class StockService {
         this.stockDAO = new StockDAO();
     }
 
+    /**
+     * Saves or updates a stock in the database.
+     *
+     * @param stock The stock to save or update.
+     */
     public void saveStock(Stock stock) {
-        // If stock id is 0 it's a new stock
+        // If the stock id is 0 it's a new stock
         if (stock.getId() == 0) {
             stockDAO.save(stock);
         } else {
@@ -22,6 +27,11 @@ public class StockService {
         }
     }
 
+    /**
+     * Retrieves all stocks from the database.
+     *
+     * @return A list of all stocks.
+     */
     public List<Stock> getAllStocks() {
         return stockDAO.findAll();
     }
