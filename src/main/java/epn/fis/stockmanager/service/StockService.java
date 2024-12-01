@@ -12,7 +12,7 @@ public class StockService {
     }
 
     public void saveStock(Stock stock) {
-        if (stockDAO.findById(stock.getId()) == null) {
+        if (stock.getId() == 0) {
             stockDAO.save(stock);
         } else {
             stockDAO.update(stock);
