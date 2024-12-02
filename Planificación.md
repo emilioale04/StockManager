@@ -24,8 +24,6 @@ Incluye:
 ### c. Documentos del Proyecto
 1. **Historias de Usuario (para los requisitos):**
    - Cada historia debe incluir un título, descripción, criterios de aceptación y tareas relacionadas.
-2. **Diseño:**
-   - Modelo ER de la base de datos.
 
 ### d. Código Final
 Estructura completa del proyecto Java-Web, con persistencia en PostgreSQL, siguiendo los estándares.
