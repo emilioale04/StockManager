@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +14,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Registro de Acciones</h2>
+    <h2>Registro de Acciones Compradas</h2>
         <!-- Row for symbol and name -->
     <form action="stock" method="POST" onsubmit="return validateForm()">
         <div class="form-row">
@@ -50,7 +51,7 @@
         <button type="submit" class="btn btn-primary">Registrar Compra de Acciones</button>
     </form>
 
-    <h3 class="mt-5">Stocks Registrados</h3>
+    <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
     <!-- Button to trigger price update -->
     <form action="updatePrices" method="GET">
@@ -72,12 +73,12 @@
             <th>ID</th>
             <th>Compañía</th>
             <th>Símbolo</th>
-            <th>Fecha de Compra</th>
+            <th>Fecha Compra</th>
             <th>Cantidad</th>
-            <th>Precio de Compra</th>
-            <th>Último Precio Registrado</th>
-            <th>Porcentaje Ganancia/Pérdida</th>
-            <th>Dinero Ganado/Perdido</th>
+            <th>Precio de Compra ($)</th>
+            <th>Último Precio Registrado ($)</th>
+            <th>Profit/Loss (%)</th>
+            <th>Profit/Loss ($)</th>
             <th>Comentarios</th>
         </tr>
         </thead>
@@ -85,11 +86,22 @@
         <c:forEach var="stock" items="${stocks}">
             <tr>
                 <td>${stock.id}</td>
-                <td>${stock.companyName}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${fn:length(stock.companyName) > 8}">
+                            ${fn:substring(stock.companyName, 0, 8)}...
+                        </c:when>
+                        <c:otherwise>
+                            ${stock.companyName}
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td>${stock.tickerSymbol}</td>
                 <td>${stock.purchaseDate}</td>
                 <td>${stock.quantity}</td>
-                <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2" /></td>
+                <td>
+                    <fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2" />
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
@@ -105,19 +117,19 @@
                         <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
                             <c:choose>
                                 <c:when test="${stock.profitOrLossPercentage >= 0}">
-                    <span class="text-success">
-                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
-                    </span>
+                                <span class="text-success">
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                </span>
                                 </c:when>
                                 <c:when test="${stock.profitOrLossPercentage < 0}">
-                    <span class="text-danger">
-                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
-                    </span>
+                                <span class="text-danger">
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                </span>
                                 </c:when>
                                 <c:otherwise>
-                    <span>
-                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
-                    </span>
+                                <span>
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                </span>
                                 </c:otherwise>
                             </c:choose>
                         </c:when>
@@ -147,7 +159,16 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>${stock.comments != null ? stock.comments : 'N/A'}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.comments != null && fn:length(stock.comments) > 8}">
+                            ${fn:substring(stock.comments, 0, 8)}...
+                        </c:when>
+                        <c:otherwise>
+                            ${stock.comments != null ? stock.comments : 'N/A'}
+                        </c:otherwise>
+                    </c:choose>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
