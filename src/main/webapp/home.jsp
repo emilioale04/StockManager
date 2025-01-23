@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,8 +14,9 @@
 <body>
 <div class="container mt-5">
     <h2>Registro de Acciones Compradas</h2>
-        <!-- Row for symbol and name -->
-    <form action="stock" method="POST" onsubmit="return validateForm()">
+    <!-- Row for symbol and name -->
+    <form action="stockController" method="POST" onsubmit="return validateForm()">
+        <input type="hidden" name="route" value="saveStock">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="tickerSymbol">Símbolo</label>
@@ -42,19 +42,14 @@
                 <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice" required>
             </div>
         </div>
-        <!-- Comments field -->
-        <div class="form-group">
-            <label for="comments">Comentarios</label>
-            <textarea class="form-control" id="comments" name="comments"></textarea>
-        </div>
-        <!-- Submit button -->
         <button type="submit" class="btn btn-primary">Registrar Compra de Acciones</button>
     </form>
 
     <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
     <!-- Button to trigger price update -->
-    <form action="updatePrices" method="GET">
+    <form action="stockController" method="get">
+        <input type="hidden" name="route" value="listStocks">
         <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
     </form>
 
@@ -75,11 +70,10 @@
             <th>Símbolo</th>
             <th>Fecha Compra</th>
             <th>Cantidad</th>
-            <th>Precio de Compra ($)</th>
+            <th>Precio de Compra Unitario ($)</th>
             <th>Último Precio Registrado ($)</th>
             <th>Profit/Loss (%)</th>
             <th>Profit/Loss ($)</th>
-            <th>Comentarios</th>
         </tr>
         </thead>
         <tbody>
@@ -159,20 +153,9 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${stock.comments != null && fn:length(stock.comments) > 8}">
-                            ${fn:substring(stock.comments, 0, 8)}...
-                        </c:when>
-                        <c:otherwise>
-                            ${stock.comments != null ? stock.comments : 'N/A'}
-                        </c:otherwise>
-                    </c:choose>
-                </td>
             </tr>
         </c:forEach>
         </tbody>
-
     </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,6 +1,7 @@
 package epn.fis.stockmanager.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 /**
@@ -31,9 +32,6 @@ public class Stock {
 
     @Column(name = "current_price")
     private double currentPrice;
-
-    @Column(name = "comments")
-    private String comments;
 
     @Transient
     private double profitOrLoss;
@@ -108,14 +106,6 @@ public class Stock {
 
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
     }
 
     public double getProfitOrLoss() {

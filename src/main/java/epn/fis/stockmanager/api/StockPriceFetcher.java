@@ -1,6 +1,7 @@
 package epn.fis.stockmanager.api;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,10 +32,10 @@ public class StockPriceFetcher {
 
         for (String ticker : tickers) {
             String urlString = constructUrl(ticker);
-            JSONObject jsonResponse = fetchJsonResponse(urlString);
+            JsonObject jsonResponse = fetchJsonResponse(urlString);
 
-            if (jsonResponse.has("c")) {
-                double currentPrice = jsonResponse.getDouble("c"); // 'c' represents the current price
+            if (jsonResponse.has("c") && !jsonResponse.get("c").isJsonNull()) {
+                double currentPrice = jsonResponse.get("c").getAsDouble(); // 'c' represents the current price
                 prices.put(ticker, currentPrice);
             } else {
                 prices.put(ticker, null); // No price found for the ticker
@@ -58,10 +59,10 @@ public class StockPriceFetcher {
      * Fetches the JSON response from the given URL.
      *
      * @param urlString The URL to fetch the JSON response from.
-     * @return A JSONObject containing the response.
+     * @return A JsonObject containing the response.
      * @throws IOException If there is an error during the request.
      */
-    private JSONObject fetchJsonResponse(String urlString) throws IOException {
+    private JsonObject fetchJsonResponse(String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -72,7 +73,7 @@ public class StockPriceFetcher {
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
-            return new JSONObject(response.toString());
+            return JsonParser.parseString(response.toString()).getAsJsonObject();
         }
     }
 }
