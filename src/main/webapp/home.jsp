@@ -61,6 +61,13 @@
         </div>
     </c:if>
 
+    <!-- Buton to export CSV -->
+    <div class="d-flex justify-content-end mb-2">
+        <form action="exportCSV" method="get">
+            <button type="submit" class="btn-export">Exportar CSV</button>
+        </form>
+    </div>
+
     <!-- Table for displaying stocks -->
     <table class="table table-bordered mt-3">
         <thead>

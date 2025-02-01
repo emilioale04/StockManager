@@ -28,16 +28,16 @@ public class Stock {
     private int quantity;
 
     @Column(name = "purchase_price", nullable = false)
-    private double purchasePrice;
+    private Double purchasePrice;
 
     @Column(name = "current_price")
-    private double currentPrice;
+    private Double currentPrice;
 
     @Transient
-    private double profitOrLoss;
+    private Double profitOrLoss;
 
     @Transient
-    private double profitOrLossPercentage;
+    private Double profitOrLossPercentage;
 
     // Constructors
     public Stock() {
@@ -92,7 +92,7 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public double getPurchasePrice() {
+    public Double getPurchasePrice() {
         return purchasePrice;
     }
 
@@ -100,7 +100,7 @@ public class Stock {
         this.purchasePrice = purchasePrice;
     }
 
-    public double getCurrentPrice() {
+    public Double getCurrentPrice() {
         return currentPrice;
     }
 
@@ -108,7 +108,7 @@ public class Stock {
         this.currentPrice = currentPrice;
     }
 
-    public double getProfitOrLoss() {
+    public Double getProfitOrLoss() {
         return profitOrLoss;
     }
 
@@ -116,7 +116,7 @@ public class Stock {
         this.profitOrLoss = profitOrLoss;
     }
 
-    public double getProfitOrLossPercentage() {
+    public Double getProfitOrLossPercentage() {
         return profitOrLossPercentage;
     }
 
