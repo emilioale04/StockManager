@@ -1,4 +1,4 @@
-<!-- accionesArchivadas.jsp -->
+<!-- archivedStocks.jsp -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
@@ -22,9 +22,8 @@
             <th>Fecha Compra</th>
             <th>Cantidad</th>
             <th>Precio Compra ($)</th>
-            <th>Último Precio ($)</th>
-            <th>Profit/Loss (%)</th>
-            <th>Profit/Loss ($)</th>
+            <th>Último Precio Registrado ($)</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -44,13 +43,11 @@
                         <c:otherwise>N/A</c:otherwise>
                     </c:choose>
                 </td>
-                <td>${stock.profitOrLossPercentage}%</td>
-                <td>${stock.profitOrLoss}$</td>
                 <td>
                     <form action="stockController" method="POST">
-                        <input type="hidden" name="route" value="unarchiveStock">
+                        <input type="hidden" name="route" value="unArchiveStock">
                         <input type="hidden" name="stockId" value="${stock.id}">
-                        <button type="submit" class="btn btn-secondary btn-sm">Desarchivas</button>
+                        <button type="submit" class="btn btn-secondary btn-sm">Desarchivar</button>
                     </form>
                 </td>
             </tr>

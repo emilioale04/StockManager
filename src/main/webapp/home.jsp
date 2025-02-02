@@ -37,17 +37,17 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="purchasePrice">Precio de Compra</label>
-                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice" required>
+                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice"
+                       required>
             </div>
         </div>
-        <div class="mt-3">
-            <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
-        </div>
-
         <button type="submit" class="btn btn-primary">Registrar Compra</button>
     </form>
 
     <h3 class="mt-5">Acciones Compradas</h3>
+    <div class="mt-3">
+        <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
+    </div>
     <table class="table table-bordered mt-3">
         <thead>
         <tr>
@@ -60,37 +60,36 @@
             <th>Último Precio ($)</th>
             <th>Profit/Loss (%)</th>
             <th>Profit/Loss ($)</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="stock" items="${stocks}">
-            <c:if test="${!stock.archive}">
-                <tr>
-                    <td>${stock.id}</td>
-                    <td>${stock.companyName}</td>
-                    <td>${stock.tickerSymbol}</td>
-                    <td>${stock.purchaseDate}</td>
-                    <td>${stock.quantity}</td>
-                    <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2"/></td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${stock.currentPrice != null}">
-                                <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2"/>
-                            </c:when>
-                            <c:otherwise>N/A</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>${stock.profitOrLossPercentage}%</td>
-                    <td>${stock.profitOrLoss}$</td>
-                    <td>
-                        <form action="stockController" method="POST">
-                            <input type="hidden" name="route" value="archiveStock">
-                            <input type="hidden" name="stockId" value="${stock.id}">
-                            <button type="submit" class="btn btn-secondary btn-sm">Archivar</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:if>
+            <tr>
+                <td>${stock.id}</td>
+                <td>${stock.companyName}</td>
+                <td>${stock.tickerSymbol}</td>
+                <td>${stock.purchaseDate}</td>
+                <td>${stock.quantity}</td>
+                <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2"/></td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null}">
+                            <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2"/>
+                        </c:when>
+                        <c:otherwise>N/A</c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${stock.profitOrLossPercentage}%</td>
+                <td>${stock.profitOrLoss}$</td>
+                <td>
+                    <form action="stockController" method="POST">
+                        <input type="hidden" name="route" value="archiveStock">
+                        <input type="hidden" name="stockId" value="${stock.id}">
+                        <button type="submit" class="btn btn-secondary btn-sm">Archivar</button>
+                    </form>
+                </td>
+            </tr>
         </c:forEach>
         </tbody>
     </table>

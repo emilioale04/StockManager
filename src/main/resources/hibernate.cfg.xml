@@ -8,7 +8,7 @@
 
         <!-- Database credentials -->
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.password">P@ssw0rd</property>
 
         <!-- PostgreSQL dialect for Hibernate -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
