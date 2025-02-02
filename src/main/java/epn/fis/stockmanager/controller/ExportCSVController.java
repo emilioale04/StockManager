@@ -1,4 +1,4 @@
-package epn.fis.stockmanager.Servlet;
+package epn.fis.stockmanager.controller;
 
 import epn.fis.stockmanager.model.Stock;
 import epn.fis.stockmanager.service.StockService;
@@ -8,29 +8,41 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet("/exportCSV")
-public class ExportCSVServlet extends HttpServlet {
+public class ExportCSVController extends HttpServlet {
 
-    private final StockService stockService = new StockService(); // Servicio para obtener los datos
+    private final StockService stockService = new StockService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"acciones_compradas.csv\"");
 
-        try (PrintWriter writer = response.getWriter()) {
-            // Encabezados del CSV
-            writer.println("ID,Compañía,Símbolo,Fecha Compra,Cantidad,Precio de Compra,Último Precio Registrado,Profit/Loss (%),Profit/Loss ($),Comentarios");
+        List<Stock> stocks = stockService.getAllStocks();
 
-            // Obtener la lista de acciones
-            List<Stock> stocks = stockService.getAllStocks(); // Implementado en StockService
+        if (stocks.isEmpty()) {
+            response.getWriter().write("No hay datos disponibles.");
+            return;
+        }
+
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("ID", "Compania", "Simbolo", "Fecha Compra", "Cantidad",
+                        "Precio de Compra", "Ultimo Precio Registrado",
+                        "Profit/Loss (%)", "Profit/Loss ($)")
+                .build();
+
+        try (PrintWriter writer = response.getWriter();
+             CSVPrinter csvPrinter = new CSVPrinter(writer, csvFormat)) {
 
             for (Stock stock : stocks) {
-                writer.printf("%d,%s,%s,%s,%d,%.2f,%.2f,%.2f,%.2f,%s%n",
+                csvPrinter.printRecord(
                         stock.getId(),
                         stock.getCompanyName(),
                         stock.getTickerSymbol(),
@@ -42,6 +54,8 @@ public class ExportCSVServlet extends HttpServlet {
                         stock.getProfitOrLoss() != null ? stock.getProfitOrLoss() : 0.0
                 );
             }
+
+            csvPrinter.flush();
         }
     }
 }
