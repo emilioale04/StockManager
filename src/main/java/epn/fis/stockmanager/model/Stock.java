@@ -39,8 +39,8 @@ public class Stock {
     @Transient
     private double profitOrLossPercentage;
 
-    @Column(name = "isArchive")
-    private boolean isArchive;
+    @Column(name = "archived")
+    private boolean archived;
 
     // Constructors
     public Stock() {
@@ -52,7 +52,7 @@ public class Stock {
         this.purchaseDate = purchaseDate;
         this.quantity = quantity;
         this.purchasePrice = purchasePrice;
-        this.isArchive = false;
+        this.archived = false;
     }
 
     // Getters and Setters
@@ -130,10 +130,10 @@ public class Stock {
     }
 
     public void setArchive(boolean archive) {
-        this.isArchive = archive;
+        this.archived = archive;
     }
 
-    public boolean isArchive() {
-        return isArchive;
+    public boolean isArchived() {
+        return archived;
     }
 }
