@@ -20,6 +20,7 @@
             <div class="form-group col-md-6">
                 <label for="tickerSymbol">Símbolo</label>
                 <input type="text" class="form-control" id="tickerSymbol" name="tickerSymbol" required>
+                <small class="text-danger" id="symbolError"></small>
             </div>
             <div class="form-group col-md-6">
                 <label for="companyName">Nombre de la Compañía</label>
@@ -30,6 +31,7 @@
             <div class="form-group col-md-4">
                 <label for="purchaseDate">Fecha de Compra</label>
                 <input type="date" class="form-control" id="purchaseDate" name="purchaseDate" required>
+                <small class="text-danger" id="dateError"></small>
             </div>
             <div class="form-group col-md-4">
                 <label for="quantity">Cantidad</label>
@@ -37,8 +39,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="purchasePrice">Precio de Compra</label>
-                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice"
-                       required>
+                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice" required>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Registrar Compra</button>
@@ -46,23 +47,18 @@
     <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
     <div class="d-flex justify-content-between">
-        <!-- Form to update prices -->
         <form action="stockController" method="get" class="mb-3">
             <input type="hidden" name="route" value="listStocks">
             <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
         </form>
-
-          <div class="mt-3">
-        <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
-    </div>
-        <!-- Form to export CSV -->
+        <div class="mt-3">
+            <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
+        </div>
         <form action="exportCSV" method="get">
             <button type="submit" class="btn btn-success mt-3">Exportar CSV</button>
         </form>
     </div>
 
-
-    <!-- Error message -->
     <c:if test="${not empty message and message == 'error'}">
         <br>
         <div class="alert alert-danger" role="alert">
@@ -70,7 +66,6 @@
         </div>
     </c:if>
 
-    <!-- Table for displaying stocks -->
     <table class="table table-bordered mt-3">
         <thead>
         <tr>
@@ -104,59 +99,17 @@
                     </c:choose>
                 </td>
                 <td>
-                    <c:choose>
-                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
-                            <c:choose>
-                                <c:when test="${stock.profitOrLossPercentage >= 0}">
-                                <span class="text-success">
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
-                                                      maxFractionDigits="2"/>%
-                                </span>
-                                </c:when>
-                                <c:when test="${stock.profitOrLossPercentage < 0}">
-                                <span class="text-danger">
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
-                                                      maxFractionDigits="2"/>%
-                                </span>
-                                </c:when>
-                                <c:otherwise>
-                                <span>
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
-                                                      maxFractionDigits="2"/>%
-                                </span>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            N/A
-                        </c:otherwise>
-                    </c:choose>
+                    <span class="${stock.profitOrLossPercentage >= 0 ? 'text-success' : 'text-danger'}">
+                        <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2"/>%
+                    </span>
                 </td>
                 <td>
-                    <c:choose>
-                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
-                            <c:choose>
-                                <c:when test="${stock.profitOrLoss >= 0}">
-                                <span class="text-success">
-                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
-                                                      maxFractionDigits="2"/>$
-                                </span>
-                                </c:when>
-                                <c:when test="${stock.profitOrLoss < 0}">
-                                <span class="text-danger">
-                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
-                                                      maxFractionDigits="2"/>$
-                                </span>
-                                </c:when>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            N/A
-                        </c:otherwise>
-                    </c:choose>
-                  </td>
-                  <td>
-                  <form action="stockController" method="POST">
+                    <span class="${stock.profitOrLoss >= 0 ? 'text-success' : 'text-danger'}">
+                        <fmt:formatNumber value="${stock.profitOrLoss}" type="number" maxFractionDigits="2"/>$
+                    </span>
+                </td>
+                <td>
+                    <form action="stockController" method="POST" onsubmit="return confirm('¿Estás seguro de archivar esta acción?')">
                         <input type="hidden" name="route" value="archiveStock">
                         <input type="hidden" name="stockId" value="${stock.id}">
                         <button type="submit" class="btn btn-secondary btn-sm">Archivar</button>
@@ -167,5 +120,22 @@
         </tbody>
     </table>
 </div>
+<script>
+    function validateForm() {
+        let symbol = document.getElementById("tickerSymbol").value;
+        let purchaseDate = new Date(document.getElementById("purchaseDate").value);
+        let today = new Date();
+
+        if (!/^[A-Z]{1,5}(\.[A-Z]{1,3})?$/.test(symbol)) {
+            document.getElementById("symbolError").textContent = "Formato inválido";
+            return false;
+        }
+        if (purchaseDate > today) {
+            document.getElementById("dateError").textContent = "La fecha no puede ser futura";
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>
