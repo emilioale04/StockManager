@@ -39,7 +39,8 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="purchasePrice">Precio de Compra</label>
-                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice" required>
+                <input type="number" step="0.01" min="0.01" class="form-control" id="purchasePrice" name="purchasePrice"
+                       required>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Registrar Compra de Acciones</button>
@@ -47,11 +48,19 @@
 
     <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
-    <!-- Button to trigger price update -->
-    <form action="stockController" method="get">
-        <input type="hidden" name="route" value="listStocks">
-        <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
-    </form>
+    <div class="d-flex justify-content-between">
+        <!-- Form to update prices -->
+        <form action="stockController" method="get" class="mb-3">
+            <input type="hidden" name="route" value="listStocks">
+            <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
+        </form>
+
+        <!-- Form to export CSV -->
+        <form action="exportCSV" method="get">
+            <button type="submit" class="btn btn-success mt-3">Exportar CSV</button>
+        </form>
+    </div>
+
 
     <!-- Error message -->
     <c:if test="${not empty message and message == 'error'}">
@@ -60,13 +69,6 @@
             Ocurrió un error al actualizar los precios de las acciones. Por favor, inténtelo nuevamente más tarde.
         </div>
     </c:if>
-
-    <!-- Buton to export CSV -->
-    <div class="d-flex justify-content-end mb-2">
-        <form action="exportCSV" method="get">
-            <button type="submit" class="btn-export">Exportar CSV</button>
-        </form>
-    </div>
 
     <!-- Table for displaying stocks -->
     <table class="table table-bordered mt-3">
@@ -101,12 +103,12 @@
                 <td>${stock.purchaseDate}</td>
                 <td>${stock.quantity}</td>
                 <td>
-                    <fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2" />
+                    <fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2"/>
                 </td>
                 <td>
                     <c:choose>
                         <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
-                            <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2" />
+                            <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2"/>
                         </c:when>
                         <c:otherwise>
                             N/A
@@ -119,17 +121,20 @@
                             <c:choose>
                                 <c:when test="${stock.profitOrLossPercentage >= 0}">
                                 <span class="text-success">
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
                                 </span>
                                 </c:when>
                                 <c:when test="${stock.profitOrLossPercentage < 0}">
                                 <span class="text-danger">
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
                                 </span>
                                 </c:when>
                                 <c:otherwise>
                                 <span>
-                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number" maxFractionDigits="2" />%
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
                                 </span>
                                 </c:otherwise>
                             </c:choose>
@@ -145,12 +150,14 @@
                             <c:choose>
                                 <c:when test="${stock.profitOrLoss >= 0}">
                                 <span class="text-success">
-                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number" maxFractionDigits="2" />$
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
+                                                      maxFractionDigits="2"/>$
                                 </span>
                                 </c:when>
                                 <c:when test="${stock.profitOrLoss < 0}">
                                 <span class="text-danger">
-                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number" maxFractionDigits="2" />$
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
+                                                      maxFractionDigits="2"/>$
                                 </span>
                                 </c:when>
                             </c:choose>
