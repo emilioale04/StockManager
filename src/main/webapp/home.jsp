@@ -43,11 +43,34 @@
         </div>
         <button type="submit" class="btn btn-primary">Registrar Compra</button>
     </form>
+    <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
-    <h3 class="mt-5">Acciones Compradas</h3>
-    <div class="mt-3">
+    <div class="d-flex justify-content-between">
+        <!-- Form to update prices -->
+        <form action="stockController" method="get" class="mb-3">
+            <input type="hidden" name="route" value="listStocks">
+            <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
+        </form>
+
+          <div class="mt-3">
         <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
     </div>
+        <!-- Form to export CSV -->
+        <form action="exportCSV" method="get">
+            <button type="submit" class="btn btn-success mt-3">Exportar CSV</button>
+        </form>
+    </div>
+
+
+    <!-- Error message -->
+    <c:if test="${not empty message and message == 'error'}">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            Ocurrió un error al actualizar los precios de las acciones. Por favor, inténtelo nuevamente más tarde.
+        </div>
+    </c:if>
+
+    <!-- Table for displaying stocks -->
     <table class="table table-bordered mt-3">
         <thead>
         <tr>
@@ -80,10 +103,60 @@
                         <c:otherwise>N/A</c:otherwise>
                     </c:choose>
                 </td>
-                <td>${stock.profitOrLossPercentage}%</td>
-                <td>${stock.profitOrLoss}$</td>
                 <td>
-                    <form action="stockController" method="POST">
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <c:choose>
+                                <c:when test="${stock.profitOrLossPercentage >= 0}">
+                                <span class="text-success">
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
+                                </span>
+                                </c:when>
+                                <c:when test="${stock.profitOrLossPercentage < 0}">
+                                <span class="text-danger">
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
+                                </span>
+                                </c:when>
+                                <c:otherwise>
+                                <span>
+                                    <fmt:formatNumber value="${stock.profitOrLossPercentage}" type="number"
+                                                      maxFractionDigits="2"/>%
+                                </span>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${stock.currentPrice != null && stock.currentPrice > 0}">
+                            <c:choose>
+                                <c:when test="${stock.profitOrLoss >= 0}">
+                                <span class="text-success">
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
+                                                      maxFractionDigits="2"/>$
+                                </span>
+                                </c:when>
+                                <c:when test="${stock.profitOrLoss < 0}">
+                                <span class="text-danger">
+                                    <fmt:formatNumber value="${stock.profitOrLoss}" type="number"
+                                                      maxFractionDigits="2"/>$
+                                </span>
+                                </c:when>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            N/A
+                        </c:otherwise>
+                    </c:choose>
+                  </td>
+                  <td>
+                  <form action="stockController" method="POST">
                         <input type="hidden" name="route" value="archiveStock">
                         <input type="hidden" name="stockId" value="${stock.id}">
                         <button type="submit" class="btn btn-secondary btn-sm">Archivar</button>
