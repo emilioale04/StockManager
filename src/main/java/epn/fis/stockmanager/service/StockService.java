@@ -54,8 +54,7 @@ public class StockService {
      *
      * @throws IOException If an error occurs while fetching prices.
      */
-    public void updateAllStocksPrices() throws IOException {
-        List<Stock> stocks = getAllStocks();
+    public void updateStocksPrices(List<Stock> stocks) throws IOException {
         List<String> tickers = stocks.stream()
                 .map(Stock::getTickerSymbol)
                 .collect(Collectors.toList());
@@ -107,5 +106,29 @@ public class StockService {
             stock.setProfitOrLoss(calculateProfit(stock));
             stock.setProfitOrLossPercentage(calculateProfitPercentage(stock));
         }
+    }
+
+    public void archiveStock(int stockId) {
+        Stock stock = stockDAO.findById(stockId);
+        if (stock != null) {
+            stock.setArchived(true);
+            stockDAO.update(stock);
+        }
+    }
+
+    public void unArchiveStock(int stockId) {
+        Stock stock = stockDAO.findById(stockId);
+        if (stock != null) {
+            stock.setArchived(false);
+            stockDAO.update(stock);
+        }
+    }
+
+    public List<Stock> getArchivedStocks() {
+        return stockDAO.findArchivedStocks();
+    }
+
+    public List<Stock> getNonArchivedStocks() {
+        return stockDAO.findNonArchivedStocks();
     }
 }
