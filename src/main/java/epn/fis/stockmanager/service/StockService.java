@@ -108,4 +108,19 @@ public class StockService {
             stock.setProfitOrLossPercentage(calculateProfitPercentage(stock));
         }
     }
+
+    public void archiveStock(int stockId) {
+        Stock stock = stockDAO.findById(stockId);
+        if (stock != null) {
+            stock.setArchive(true);
+            stockDAO.update(stock);
+        }
+    }
+
+    public List<Stock> getArchivedStocks() {
+        return stockDAO.findAll().stream()
+                .filter(Stock::isArchive)
+                .collect(Collectors.toList());
+    }
+
 }
