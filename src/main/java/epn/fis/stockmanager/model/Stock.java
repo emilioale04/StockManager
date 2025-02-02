@@ -129,8 +129,8 @@ public class Stock {
         this.profitOrLossPercentage = profitOrLossPercentage;
     }
 
-    public void setArchive(boolean archive) {
-        this.archived = archive;
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public boolean isArchived() {

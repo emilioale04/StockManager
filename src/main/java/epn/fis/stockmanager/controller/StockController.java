@@ -50,6 +50,9 @@ public class StockController extends HttpServlet {
             case "archiveStock":
                 archiveStock(request, response);
                 break;
+            case "unArchiveStock":
+                unArchiveStock(request, response);
+                break;
             case "listArchivedStocks":
                 listArchivedStocks(request, response);
                 break;
@@ -58,6 +61,7 @@ public class StockController extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
     }
+
     private void archiveStock(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -71,16 +75,29 @@ public class StockController extends HttpServlet {
         response.sendRedirect("stockController?route=listStocks");
     }
 
-    private void listStocks(HttpServletRequest request, HttpServletResponse response)
+    private void unArchiveStock(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            stockService.updateAllStocksPrices();
+            int stockId = Integer.parseInt(request.getParameter("stockId"));
+            stockService.unArchiveStock(stockId);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de stock inválido.");
+            return;
+        }
+
+        response.sendRedirect("stockController?route=listStocks");
+    }
+
+    private void listStocks(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        List<Stock> stocks = stockService.getNonArchivedStocks();
+        try {
+            stockService.updateStocksPrices(stocks);
+            stockService.updateProfitOrLoss(stocks);
         } catch (IOException e) {
             request.setAttribute("message", "Error al actualizar precios de las acciones.");
         }
-
-        List<Stock> stocks = stockService.getAllStocks();
-        stockService.updateProfitOrLoss(stocks);
 
         request.setAttribute("stocks", stocks);
         request.getRequestDispatcher("/home.jsp").forward(request, response);
@@ -90,7 +107,7 @@ public class StockController extends HttpServlet {
             throws ServletException, IOException {
         List<Stock> archivedStocks = stockService.getArchivedStocks();
         request.setAttribute("stocks", archivedStocks);
-        request.getRequestDispatcher("/accionesArchivadas.jsp").forward(request, response);
+        request.getRequestDispatcher("/archivedStocks.jsp").forward(request, response);
     }
 
     private void saveStock(HttpServletRequest request, HttpServletResponse response)
