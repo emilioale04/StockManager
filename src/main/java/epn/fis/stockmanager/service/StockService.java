@@ -131,4 +131,8 @@ public class StockService {
     public List<Stock> getNonArchivedStocks() {
         return stockDAO.findNonArchivedStocks();
     }
+
+    public List<Stock> getStocksBySymbol(String tickerSymbol) {
+        return stockDAO.findBySymbol(tickerSymbol);
+    }
 }

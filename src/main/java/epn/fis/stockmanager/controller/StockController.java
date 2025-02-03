@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,10 +58,28 @@ public class StockController extends HttpServlet {
             case "listArchivedStocks":
                 listArchivedStocks(request, response);
                 break;
+            case "consolidateStock":
+                consolidateStock(request, response);
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
+    }
+
+    private void consolidateStock(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String symbol = request.getParameter("symbol") == null ? "" : request.getParameter("symbol");
+        List<Stock> stocks = stockService.getStocksBySymbol(symbol);
+
+        // Convert the set of symbols to a list
+        List<String> symbolList = stockService.getNonArchivedStocks().stream()
+                .map(Stock::getTickerSymbol).distinct().collect(Collectors.toList());
+
+        request.setAttribute("symbols", symbolList);
+        request.setAttribute("currentPrice", symbolList);
+        request.setAttribute("stocks", stocks);
+        request.getRequestDispatcher("/consolidation.jsp").forward(request, response);
     }
 
     private void archiveStock(HttpServletRequest request, HttpServletResponse response)
@@ -77,6 +94,7 @@ public class StockController extends HttpServlet {
 
         response.sendRedirect("stockController?route=listStocks");
     }
+
 
     private void unArchiveStock(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

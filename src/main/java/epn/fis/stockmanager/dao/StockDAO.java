@@ -46,5 +46,11 @@ public class StockDAO extends BaseDAO<Stock> {
         }
     }
 
-
+    public List<Stock> findBySymbol(String tickerSymbol) {
+        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+            Query<Stock> query = session.createQuery("FROM Stock WHERE tickerSymbol = :tickerSymbol", Stock.class);
+            query.setParameter("tickerSymbol", tickerSymbol);
+            return query.getResultList();
+        }
+    }
 }
