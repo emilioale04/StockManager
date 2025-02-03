@@ -161,4 +161,17 @@ public class StockService {
     public List<Stock> getStocksBySymbol(String tickerSymbol) {
         return stockDAO.findBySymbol(tickerSymbol);
     }
+
+    /**
+     * Retrieves a list of non-archived stocks by their ticker symbol.
+     *
+     * @param tickerSymbol The ticker symbol to filter stocks by.
+     * @return A list of non-archived stocks with the given ticker symbol.
+     */
+    public List<Stock> getNonArchivedStocksBySymbol(String tickerSymbol) {
+        List<Stock> stocks = stockDAO.findBySymbol(tickerSymbol);
+        return stocks.stream()
+                .filter(stock -> !stock.isArchived())
+                .collect(Collectors.toList());
+    }
 }
