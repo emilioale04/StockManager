@@ -1,4 +1,3 @@
-<!-- comprarAcciones.jsp -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
@@ -46,20 +45,21 @@
     </form>
     <h3 class="mt-5">Acciones Compradas Registradas</h3>
 
+    <div class="mt-3">
+        <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
+    </div>
+
     <div class="d-flex justify-content-between">
         <form action="stockController" method="get" class="mb-3">
             <input type="hidden" name="route" value="listStocks">
             <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
         </form>
-        <div class="mt-3">
-            <a href="stockController?route=listArchivedStocks" class="btn btn-info">Ver Acciones Archivadas</a>
-        </div>
         <form action="exportCSV" method="get">
             <button type="submit" class="btn btn-success mt-3">Exportar CSV</button>
         </form>
     </div>
 
-    <c:if test="${not empty message and message == 'error'}">
+    <c:if test="${not empty message and message == 'Error al actualizar precios de las acciones.'}">
         <br>
         <div class="alert alert-danger" role="alert">
             Ocurrió un error al actualizar los precios de las acciones. Por favor, inténtelo nuevamente más tarde.

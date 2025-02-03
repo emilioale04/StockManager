@@ -13,6 +13,9 @@
 <body>
 <div class="container mt-5">
     <h2>Acciones Archivadas</h2>
+    <div class="mt-3">
+        <a href="stockController?route=listStocks" class="btn btn-info">Volver al Inicio</a>
+    </div>
     <table class="table table-bordered mt-3">
         <thead>
         <tr>

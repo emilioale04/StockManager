@@ -94,10 +94,10 @@ public class StockController extends HttpServlet {
         List<Stock> stocks = stockService.getNonArchivedStocks();
         try {
             stockService.updateStocksPrices(stocks);
-            stockService.updateProfitOrLoss(stocks);
         } catch (IOException e) {
             request.setAttribute("message", "Error al actualizar precios de las acciones.");
         }
+        stockService.updateProfitOrLoss(stocks);
 
         request.setAttribute("stocks", stocks);
         request.getRequestDispatcher("/home.jsp").forward(request, response);
