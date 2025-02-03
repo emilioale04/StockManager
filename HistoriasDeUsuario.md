@@ -98,3 +98,76 @@ Como inversor quiero ver mi ganancia/pérdida en dólares para tener una represe
 - Implementar lógica para calcular y mostrar la ganancia/pérdida en dólares (3 horas).  
 - Modificar la interfaz de usuario para mostrar el valor en dólares (2 horas).  
 - Probar la funcionalidad con escenarios reales y datos inválidos (2 horas).  
+
+---
+### Nro: HU-006
+**Título:** Ordenar acciones por letra y porcentaje de ganancia  
+**Prioridad:** Media  
+**Estimación:** 5 horas  
+
+**Historia de usuario:**  
+Como inversor, quiero poder ordenar mis acciones por letra (nombre) y porcentaje de ganancia, para visualizar de manera organizada mi cartera de inversiones.  
+
+**Criterios de aceptación:**  
+- Dado que el usuario tiene una lista de acciones registradas, cuando seleccione la opción de ordenar por letra, entonces el sistema debe mostrar las acciones ordenadas alfabéticamente.  
+- Dado que el usuario tenga una lista de acciones registradas, cuando seleccione la opción de ordenar por porcentaje de ganancia, entonces el sistema debe mostrar las acciones ordenadas de mayor a menor ganancia (o pérdida).  
+- Dado que no haya acciones registradas, cuando el usuario intente ordenar, entonces el sistema debe mostrar el mensaje "No hay acciones disponibles".  
+
+**Tareas de implementación:**  
+- Diseñar la interfaz para seleccionar el tipo de ordenamiento (1 hora).  
+- Implementar la lógica para ordenar acciones por letra (2 horas).  
+- Implementar la lógica para ordenar acciones por porcentaje de ganancia (2 horas).  
+
+---
+### Nro: HU-007
+**Título:** Ver consolidado de inversiones  
+**Prioridad:** Alta  
+**Estimación:** 8 horas  
+
+**Historia de usuario:**  
+Como inversor, quiero ver un consolidado de mis inversiones que muestre el valor total de mi cartera, la ganancia/pérdida total y el rendimiento promedio, para tener una visión general de mi desempeño financiero.  
+
+**Criterios de aceptación:**  
+- Dado que el usuario tenga acciones registradas, cuando solicite ver el consolidado, entonces el sistema debe mostrar el valor total de la cartera, la ganancia/pérdida total y el rendimiento promedio.  
+- Dado que no haya acciones registradas, cuando el usuario solicite ver el consolidado, entonces el sistema debe mostrar el mensaje "No hay acciones registradas".  
+
+**Tareas de implementación:**  
+- Diseñar la interfaz para mostrar el consolidado (2 horas).  
+- Implementar la lógica para calcular el valor total de la cartera (2 horas).  
+- Implementar la lógica para calcular la ganancia/pérdida total y el rendimiento promedio (3 horas).  
+- Probar la funcionalidad con diferentes escenarios (1 hora).  
+
+---
+### Nro: HU-008 
+**Título:** Exportar cartera de acciones a CSV  
+**Prioridad:** Media  
+**Estimación:** 6 horas  
+
+**Historia de usuario:**  
+Como inversor quiero exportar mi cartera de acciones a un archivo CSV, para poder analizar mis inversiones en herramientas externas como Excel o Google Sheets.  
+
+**Criterios de aceptación:**  
+- Dado que el usuario tenga acciones registradas, cuando seleccione la opción de exportar a CSV, entonces el sistema debe generar un archivo CSV con los datos de la cartera. 
+
+**Tareas de implementación:**  
+- Diseñar la interfaz para la opción de exportar a CSV (1 hora).  
+- Implementar la lógica para generar el archivo CSV con los datos de la cartera (3 horas).  
+- Probar la funcionalidad con diferentes escenarios (2 horas).  
+
+---
+### Nro: HU-009 
+**Título:** Archivar acciones  
+**Prioridad:** Baja  
+**Estimación:** 4 horas  
+
+**Historia de usuario:**  
+Como inversor quiero poder archivar acciones que ya no estoy siguiendo activamente, para mantener mi cartera organizada y enfocada en las inversiones actuales.  
+
+**Criterios de aceptación:**  
+- Dado que el usuario seleccione una acción, cuando elija la opción de archivar, entonces la acción debe moverse a una sección de "Archivados" y no aparecer en la cartera activa.  
+- Dado que el usuario quiera ver acciones archivadas, cuando seleccione la opción de "Ver archivados", entonces el sistema debe mostrar la lista de acciones archivadas.  
+
+**Tareas de implementación:**  
+- Diseñar la interfaz para archivar y ver acciones archivadas (1 hora).  
+- Implementar la lógica para mover acciones a la sección de archivados (2 horas).  
+- Probar la funcionalidad con diferentes escenarios (1 hora).  
