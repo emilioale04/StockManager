@@ -81,7 +81,7 @@
     <c:if test="${not empty stocks}">
         <div class="d-flex justify-content-between">
             <form action="stockController" method="get" class="mb-3">
-                <input type="hidden" name="route" value="listStocks">
+                <input type="hidden" name="route" value="updateStocksPrices">
                 <button type="submit" class="btn btn-warning mt-3">Actualizar Precios</button>
             </form>
             <form action="exportCSV" method="get">

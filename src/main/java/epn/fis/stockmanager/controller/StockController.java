@@ -44,6 +44,9 @@ public class StockController extends HttpServlet {
             case "listStocks":
                 listStocks(request, response);
                 break;
+            case "updateStocksPrices":
+                updateStocksPrices(request, response);
+                break;
             case "saveStock":
                 saveStock(request, response);
                 break;
@@ -92,6 +95,16 @@ public class StockController extends HttpServlet {
             throws ServletException, IOException {
 
         List<Stock> stocks = stockService.getNonArchivedStocks();
+        stockService.updateProfitOrLoss(stocks);
+
+        request.setAttribute("stocks", stocks);
+        request.getRequestDispatcher("/home.jsp").forward(request, response);
+    }
+
+    private void updateStocksPrices(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        List<Stock> stocks = stockService.getNonArchivedStocks();
         try {
             stockService.updateStocksPrices(stocks);
         } catch (IOException e) {
@@ -131,6 +144,6 @@ public class StockController extends HttpServlet {
             return;
         }
 
-        response.sendRedirect("stockController?route=listStocks");
+        response.sendRedirect("stockController?route=updateStocksPrices");
     }
 }
