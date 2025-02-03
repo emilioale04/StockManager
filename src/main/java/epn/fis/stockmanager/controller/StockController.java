@@ -70,15 +70,19 @@ public class StockController extends HttpServlet {
     private void consolidateStock(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String symbol = request.getParameter("symbol") == null ? "" : request.getParameter("symbol");
-        List<Stock> stocks = stockService.getStocksBySymbol(symbol);
 
         // Convert the set of symbols to a list
         List<String> symbolList = stockService.getNonArchivedStocks().stream()
                 .map(Stock::getTickerSymbol).distinct().collect(Collectors.toList());
 
+        if (!symbol.isEmpty()) {
+            List<Stock> stocks = stockService.getStocksBySymbol(symbol);
+            double currentPrice = stocks.get(0).getCurrentPrice();
+            request.setAttribute("stocks", stocks);
+            request.setAttribute("currentPrice", currentPrice);
+        }
+
         request.setAttribute("symbols", symbolList);
-        request.setAttribute("currentPrice", symbolList);
-        request.setAttribute("stocks", stocks);
         request.getRequestDispatcher("/consolidation.jsp").forward(request, response);
     }
 

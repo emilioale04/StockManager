@@ -65,7 +65,7 @@
                     <td>${stock.purchaseDate}</td>
                     <td>${stock.tickerSymbol}</td>
                     <td>${stock.quantity}</td>
-                    <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2"/></td>
+                    <td>${stock.purchasePrice}</td>
                     <td>
                         <c:set var="totalPurchase" value="${stock.purchasePrice * stock.quantity}"/>
                         <fmt:formatNumber value="${totalPurchase}" type="number" maxFractionDigits="2"/>
@@ -83,15 +83,37 @@
                 <th>Cantidad Total</th>
                 <th>Total Compra ($)</th>
                 <th>Precio por Acción ($)</th>
-                <th>Profit/Loss (%)</th>
+                <th>Último precio registrado ($)</th>
                 <th>Profit/Loss ($)</th>
+                <th>Profit/Loss (%)</th>
             </tr>
             </thead>
             <tbody>
+            <c:set var="totalQuantity" value="0"/>
+            <c:set var="totalPrice" value="0"/>
+            <c:forEach var="stock" items="${stocks}">
+                <c:if test="${stock.tickerSymbol == param.symbol}">
+                    <c:set var="totalQuantity" value="${totalQuantity + stock.quantity}"/>
+                    <c:set var="totalPrice" value="${totalPrice + (stock.purchasePrice * stock.quantity)}"/>
+                </c:if>
+            </c:forEach>
+            <c:if test="${totalQuantity > 0}">
+                <c:set var="averagePrice" value="${totalPrice / totalQuantity}"/>
+                <c:set var="consolidatedProfit" value="${(currentPrice - averagePrice) * totalQuantity}"/>
+                <c:set var="consolidatedProfitPercentage" value="${((currentPrice - averagePrice) / averagePrice) * 100}"/>
+                <tr>
+                    <td>${param.symbol}</td>
+                    <td>${totalQuantity}</td>
+                    <td><fmt:formatNumber value="${totalPrice}" type="number" maxFractionDigits="2"/></td>
+                    <td><fmt:formatNumber value="${averagePrice}" type="number" maxFractionDigits="2"/></td>
+                    <td><fmt:formatNumber value="${currentPrice}" type="number" maxFractionDigits="2"/></td>
+                    <td><fmt:formatNumber value="${consolidatedProfit}" type="number" maxFractionDigits="2"/></td>
+                    <td><fmt:formatNumber value="${consolidatedProfitPercentage}" type="number" maxFractionDigits="2"/>%</td>
+                </tr>
+            </c:if>
             </tbody>
         </table>
     </c:if>
-
 </div>
 </body>
 </html>
