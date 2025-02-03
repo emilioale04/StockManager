@@ -108,6 +108,11 @@ public class StockService {
         }
     }
 
+    /**
+     * Archives the stock with the given ID.
+     *
+     * @param stockId The ID of the stock to archive.
+     */
     public void archiveStock(int stockId) {
         Stock stock = stockDAO.findById(stockId);
         if (stock != null) {
@@ -116,6 +121,11 @@ public class StockService {
         }
     }
 
+    /**
+     * Unarchives the stock with the given ID.
+     *
+     * @param stockId The ID of the stock to unarchive.
+     */
     public void unArchiveStock(int stockId) {
         Stock stock = stockDAO.findById(stockId);
         if (stock != null) {
@@ -124,11 +134,31 @@ public class StockService {
         }
     }
 
+    /**
+     * Retrieves a list of archived stocks.
+     *
+     * @return A list of archived stocks.
+     */
     public List<Stock> getArchivedStocks() {
         return stockDAO.findArchivedStocks();
     }
 
+    /**
+     * Retrieves a list of non-archived stocks.
+     *
+     * @return A list of non-archived stocks.
+     */
     public List<Stock> getNonArchivedStocks() {
         return stockDAO.findNonArchivedStocks();
+    }
+
+    /**
+     * Retrieves a list of stocks by their ticker symbol.
+     *
+     * @param tickerSymbol The ticker symbol to filter stocks by.
+     * @return A list of stocks with the given ticker symbol.
+     */
+    public List<Stock> getStocksBySymbol(String tickerSymbol) {
+        return stockDAO.findBySymbol(tickerSymbol);
     }
 }
