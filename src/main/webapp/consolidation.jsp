@@ -32,55 +32,66 @@
     </div>
 </nav>
 <div class="container mt-2">
-    <h4>Acciones Archivadas</h4>
-    <c:if test="${empty stocks}">
-        <div class="alert alert-info" role="alert">
-            No hay acciones archivadas.
+
+    <!-- Select dropdown to filter by symbol -->
+    <form action="stockController" method="get" class="mb-3">
+        <input type="hidden" name="route" value="consolidateStock">
+        <div class="form-group">
+            <label for="filterSymbol">Filtrar por símbolo:</label>
+            <select name="symbol" id="filterSymbol" class="form-control" onchange="this.form.submit()">
+                <option value="">Selecciona un símbolo</option>
+                <c:forEach var="symbol" items="${symbols}">
+                    <option value="${symbol}" ${symbol == param.symbol ? 'selected' : ''}>${symbol}</option>
+                </c:forEach>
+            </select>
         </div>
-    </c:if>
-    <c:if test="${not empty stocks}">
+    </form>
+
+    <c:if test="${not empty param.symbol}">
+        <h4>Resumen de compras</h4>
         <table class="table table-bordered mt-3">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Compañía</th>
-                <th>Símbolo</th>
                 <th>Fecha Compra</th>
+                <th>Símbolo</th>
                 <th>Cantidad</th>
-                <th>Precio Compra ($)</th>
-                <th>Último Precio Registrado ($)</th>
-                <th>Acciones</th>
+                <th>Precio de Compra ($)</th>
+                <th>Total Compra ($)</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="stock" items="${stocks}">
                 <tr>
-                    <td>${stock.id}</td>
-                    <td>${stock.companyName}</td>
-                    <td>${stock.tickerSymbol}</td>
                     <td>${stock.purchaseDate}</td>
+                    <td>${stock.tickerSymbol}</td>
                     <td>${stock.quantity}</td>
                     <td><fmt:formatNumber value="${stock.purchasePrice}" type="number" maxFractionDigits="2"/></td>
                     <td>
-                        <c:choose>
-                            <c:when test="${stock.currentPrice != null}">
-                                <fmt:formatNumber value="${stock.currentPrice}" type="number" maxFractionDigits="2"/>
-                            </c:when>
-                            <c:otherwise>N/A</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <form action="stockController" method="POST">
-                            <input type="hidden" name="route" value="unArchiveStock">
-                            <input type="hidden" name="stockId" value="${stock.id}">
-                            <button type="submit" class="btn btn-secondary btn-sm">Desarchivar</button>
-                        </form>
+                        <c:set var="totalPurchase" value="${stock.purchasePrice * stock.quantity}"/>
+                        <fmt:formatNumber value="${totalPurchase}" type="number" maxFractionDigits="2"/>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+
+        <h4>Consolidado</h4>
+        <table class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th>Símbolo</th>
+                <th>Cantidad Total</th>
+                <th>Total Compra ($)</th>
+                <th>Precio por Acción ($)</th>
+                <th>Profit/Loss (%)</th>
+                <th>Profit/Loss ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </c:if>
+
 </div>
 </body>
 </html>

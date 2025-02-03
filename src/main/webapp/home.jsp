@@ -23,7 +23,7 @@
                 <a class="nav-link mx-2" href="stockController?route=listStocks">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mx-2" href="#">Consolidado</a>
+                <a class="nav-link mx-2" href="stockController?route=consolidateStock">Consolidado</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mx-2" href="stockController?route=listArchivedStocks">Archivo</a>
