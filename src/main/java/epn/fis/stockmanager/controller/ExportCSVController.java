@@ -25,7 +25,8 @@ public class ExportCSVController extends HttpServlet {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"acciones_compradas.csv\"");
 
-        List<Stock> stocks = stockService.getAllStocks();
+        List<Stock> stocks = stockService.getNonArchivedStocks();
+        stockService.updateProfitOrLoss(stocks);
 
         if (stocks.isEmpty()) {
             response.getWriter().write("No hay datos disponibles.");
