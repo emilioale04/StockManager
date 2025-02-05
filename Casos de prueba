@@ -5,6 +5,42 @@
 
 ---
 
+## Arquitectura General: Modelo-Vista-Controlador (MVC)
+
+### Modelo (Model):
+- Contiene las definiciones de las entidades y su representación en la base de datos (e.g., clase `Stock`).
+- Interactúa con la base de datos mediante DAOs.
+
+### Vista (View):
+- Representa las interfaces de usuario o los datos que serán devueltos al cliente.
+
+### Controlador (Controller):
+- Maneja las solicitudes entrantes desde la vista, interactúa con la lógica de negocio (servicios) y devuelve una respuesta.
+
+---
+
+## Capas del Sistema
+
+### Configuración:
+- Clase para configurar las herramientas utilizadas, como `HibernateConfig` para la persistencia de datos.
+
+### DAO (Data Access Object):
+- Gestiona las operaciones de base de datos (CRUD) con clases como `BaseDAO` y `StockDAO`.
+
+### Modelo (Model):
+- Clase `Stock`, que representa la entidad principal del sistema y los datos manejados.
+
+### Servicios (Service):
+- Contienen la lógica de negocio, como la validación de datos y la integración con APIs externas. Ejemplo: `StockService`.
+
+### API:
+- Componentes que se encargan de comunicarse con servicios externos, como `StockPriceFetcher`.
+
+### Controladores (Controller):
+- Exponen los puntos de acceso HTTP para manejar las solicitudes del cliente. Ejemplo: `StockController` y `ExportCSVController`.
+
+---
+
 ## ID: CP01 - Registro de Compra
 
 **Descripción:**
@@ -24,7 +60,6 @@ El sistema registra la compra correctamente y muestra un mensaje de confirmació
 **Resultados obtenidos:** El sistema registró la compra correctamente.  
 - [ ] Reprobado
 - [x] Aprobado  
-
 
 ---
 
@@ -113,86 +148,4 @@ Acción con valor actual válido (ej: ganancia = +$100). "$100 de ganancia".
 
 ---
 
-## ID: CP06 - Exportación de Reporte
-
-**Descripción:**
-Verificar orden alfabético (A-Z).
-
-### Procedimiento de prueba:
-1. Seleccionar "Ordenar por Letra" o por Ganancia ($) en pérdida o ganancia que se representa con una flecha arriba para ganancia y abajo para pérdida.
-2. Visualizar el orden.
-
-### Resultados esperados:
-Lista ordenada: AAPL → GOOGL → TSLA.
-
-### EJECUCIONES DEL CASO DE PRUEBA
-**Fecha:** 04-02-2025  
-**Responsable:** William Enriquez  
-**Resultados obtenidos:** Las acciones se ordenaron alfabéticamente correctamente.  
-- [ ] Reprobado
-- [x] Aprobado  
-
----
-
-## ID: CP07 - Ver consolidado (Con datos)
-
-**Descripción:**
-Verificar cálculos de totales.
-
-### Procedimiento de prueba:
-1. Acceder a "Consolidado".
-
-### Resultados esperados:
-Valor total = $3500.
-
-### EJECUCIONES DEL CASO DE PRUEBA
-**Fecha:** 04-02-2025  
-**Responsable:** William Enriquez  
-**Resultados obtenidos:** El consolidado mostró el valor total correcto.  
-- [ ] Reprobado
-- [x] Aprobado  
-
----
-
-## ID: CP08 - Exportar a CSV
-
-**Descripción:**
-Verificar generación de archivo CSV.
-
-### Procedimiento de prueba:
-1. Hacer clic en "Exportar a CSV".
-
-### Resultados esperados:
-Archivo "cartera.csv" descargado con datos correctos.
-
-### EJECUCIONES DEL CASO DE PRUEBA
-**Fecha:** 04-02-2025  
-**Responsable:** William Enriquez  
-**Resultados obtenidos:** El archivo CSV se generó y descargó correctamente.  
-- [ ] Reprobado
-- [x] Aprobado  
-
----
-
-## ID: CP09 - Archivar acción
-
-**Descripción:**
-Verificar que una acción se mueve a "Archivados".
-
-### Procedimiento de prueba:
-1. Seleccionar una acción comprada, por ejemplo: AAPL → "Archivar".
-2. Acceder a "Archivo".
-3. Se visualizarán las compras archivadas.
-4. Desarchivar desde la pestaña “Archivo”.
-5. Seleccionar “Desarchivar”.
-6. Volver a “Inicio” y se verán las acciones de nuevo.
-
-### Resultados esperados:
-La acción se archivó correctamente y no aparece en la cartera activa, pero sí en la archivada. De misma forma para desarchivar de una pestaña a otra.
-
-### EJECUCIONES DEL CASO DE PRUEBA
-**Fecha:** 04-02-2025  
-**Responsable:** William Enriquez  
-**Resultados obtenidos:** La acción se archivó correctamente y no aparece en la cartera activa.  
-- [ ] Reprobado
-- [x] Aprobado  
+## Arquitectura
