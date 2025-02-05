@@ -1,6 +1,7 @@
 package epn.fis.stockmanager.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 /**
@@ -27,19 +28,19 @@ public class Stock {
     private int quantity;
 
     @Column(name = "purchase_price", nullable = false)
-    private double purchasePrice;
+    private Double purchasePrice;
 
     @Column(name = "current_price")
-    private double currentPrice;
-
-    @Column(name = "comments")
-    private String comments;
+    private Double currentPrice;
 
     @Transient
-    private double profitOrLoss;
+    private Double profitOrLoss;
 
     @Transient
-    private double profitOrLossPercentage;
+    private Double profitOrLossPercentage;
+
+    @Column(name = "archived")
+    private boolean archived;
 
     // Constructors
     public Stock() {
@@ -51,6 +52,7 @@ public class Stock {
         this.purchaseDate = purchaseDate;
         this.quantity = quantity;
         this.purchasePrice = purchasePrice;
+        this.archived = false;
     }
 
     // Getters and Setters
@@ -94,7 +96,7 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public double getPurchasePrice() {
+    public Double getPurchasePrice() {
         return purchasePrice;
     }
 
@@ -102,7 +104,7 @@ public class Stock {
         this.purchasePrice = purchasePrice;
     }
 
-    public double getCurrentPrice() {
+    public Double getCurrentPrice() {
         return currentPrice;
     }
 
@@ -110,15 +112,7 @@ public class Stock {
         this.currentPrice = currentPrice;
     }
 
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public double getProfitOrLoss() {
+    public Double getProfitOrLoss() {
         return profitOrLoss;
     }
 
@@ -126,11 +120,20 @@ public class Stock {
         this.profitOrLoss = profitOrLoss;
     }
 
-    public double getProfitOrLossPercentage() {
+    public Double getProfitOrLossPercentage() {
         return profitOrLossPercentage;
     }
 
+
     public void setProfitOrLossPercentage(double profitOrLossPercentage) {
         this.profitOrLossPercentage = profitOrLossPercentage;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public boolean isArchived() {
+        return archived;
     }
 }
